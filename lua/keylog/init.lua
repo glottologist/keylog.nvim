@@ -40,7 +40,6 @@ end
 
 -- Placeholder setup function for the keylogger command.
 function M.setup()
-    require("keylog.command").setup()
 end
 
 -- Enable the keylogger.
