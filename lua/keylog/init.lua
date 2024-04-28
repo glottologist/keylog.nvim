@@ -40,6 +40,22 @@ end
 
 -- Placeholder setup function for the keylogger command.
 function M.setup()
+   -- Create a user command 'Keylog' in Neovim using vim.api.nvim_create_user_command.
+   vim.api.nvim_create_user_command("Keylog", function(args)
+      -- If the argument provided matches a command in the 'commands' table, execute it.
+    if commands[args.args] then
+        commands[args.args]()
+    else
+        print("Invalid command. Use: enable, disable, toggle, or clear.")
+    end
+   end, {
+      nargs = 1,  -- This command requires exactly one argument.
+      complete = function()
+         -- Provide autocompletion options for the command.
+         return { "enable", "disable", "toggle", "clear" }
+      end,
+   })
+
 end
 
 -- Enable the keylogger.
