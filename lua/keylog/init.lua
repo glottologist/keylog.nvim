@@ -5,7 +5,7 @@ M.log_file_path = vim.fn.stdpath('data') .. '/keystroke.log'
 
 
 function M.key2str(key)
-    if key == "<Esc>" then
+--[[    if key == "<Esc>" then
         return "<Esc>"
     elseif key == "<CR>" then
         return "<CR>"
@@ -16,7 +16,7 @@ function M.key2str(key)
     elseif key == " " then
         return "<Space>"
     end
-
+    ]]--
     local nr = vim.fn.char2nr(key)
     local nr_without_ctrl = nr + 96
     if nr_without_ctrl >= 97 and nr_without_ctrl <= 122 then
@@ -29,7 +29,7 @@ end
 -- Function to log a single keystroke
 function M.log_keystroke(key)
 
-    local char = formatters[formatter](M.key2str(key))
+    local char = M.key2str(key)
     local file = io.open(M.log_file_path, 'a')
     if file then
         file:write(char)
