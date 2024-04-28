@@ -37,32 +37,9 @@ function M.clear()
         file:close()
     end
 end
--- Define a table 'commands' with functions imported from the 'keylog' module.
--- Each function corresponds to a different command related to key logging.
-local commands = {
-   enable = M.enable,  -- Load and store the 'enable' function from 'keylog'.
-   disable = M.disable, -- Load and store the 'disable' function from 'keylog'.
-   toggle = M.toggle,  -- Load and store the 'toggle' function from 'keylog'.
-   clear= M.clear,  -- Load and store the 'clear' function from 'keylog'.
-}
 
 -- Placeholder setup function for the keylogger command.
 function M.setup()
-   -- Create a user command 'Keylog' in Neovim using vim.api.nvim_create_user_command.
-   vim.api.nvim_create_user_command("Keylog", function(args)
-      -- If the argument provided matches a command in the 'commands' table, execute it.
-    if commands[args.args] then
-        commands[args.args]()
-    else
-        print("Invalid command. Use: enable, disable, toggle, or clear.")
-    end
-   end, {
-      nargs = 1,  -- This command requires exactly one argument.
-      complete = function()
-         -- Provide autocompletion options for the command.
-         return { "enable", "disable", "toggle", "clear" }
-      end,
-   })
 
 end
 
