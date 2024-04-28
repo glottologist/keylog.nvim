@@ -2,6 +2,7 @@ local M = {}
 
 -- Specify the path to the log file
 M.log_file_path = vim.fn.stdpath('data') .. '/keystroke.log'
+M.log_file_path_raw = vim.fn.stdpath('data') .. '/keystroke_raw.log'
 
 
 function M.key2str(key)
@@ -29,6 +30,11 @@ end
 -- Function to log a single keystroke
 function M.log_keystroke(key)
 
+    local file = io.open(M.log_file_path_raw, 'a')
+    if file then
+        file:write(key)
+        file:close()
+    end
     local char = M.key2str(key)
     local file = io.open(M.log_file_path, 'a')
     if file then
