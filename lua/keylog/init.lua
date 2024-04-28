@@ -37,6 +37,14 @@ function M.clear()
         file:close()
     end
 end
+-- Define a table 'commands' with functions imported from the 'keylog' module.
+-- Each function corresponds to a different command related to key logging.
+local commands = {
+   enable = require("keylog").enable,  -- Load and store the 'enable' function from 'keylog'.
+   disable = require("keylog").disable, -- Load and store the 'disable' function from 'keylog'.
+   toggle = require("keylog").toggle,  -- Load and store the 'toggle' function from 'keylog'.
+   clear= require("keylog").clear,  -- Load and store the 'clear' function from 'keylog'.
+}
 
 -- Placeholder setup function for the keylogger command.
 function M.setup()
