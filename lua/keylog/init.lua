@@ -47,10 +47,10 @@ end
 -- Setup function to map the keylogger to all printable ASCII characters
 function M.setup()
 print("Setup keylog")
+require("keylog.command").setup()
 end
 
--- Start and stop keycasting
-function M.start()
+function M.enable()
      if M.is_plugin_enabled then
       return
    end
@@ -63,7 +63,7 @@ function M.start()
     })
 end
 
-function M.stop()
+function M.disable()
    if not M.is_plugin_enabled then
       return
    end
@@ -76,5 +76,4 @@ end
 function M.toggle()
    (M.is_plugin_enabled and M.disable or M.enable)()
 end
--- Restore options and cleanup
 return M
