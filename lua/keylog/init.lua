@@ -45,6 +45,10 @@ end
 
 -- Setup function to map the keylogger to all printable ASCII characters
 function M.setup()
+
+    vim.api.nvim_create_autocmd({"TextYankPost"}, {
+        callback = function() M.log_keystroke(vim.v.event.regcontents[1]) end
+    })
 end
 
 -- Start and stop keycasting
