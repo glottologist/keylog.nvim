@@ -8,6 +8,7 @@ M.log_file_path = vim.fn.stdpath('data') .. '/keystroke.log'
 -- Function to convert special key presses to a string format for logging.
 function M.key2str(key)
     -- Handle control characters.
+    print(key)
     local nr = vim.fn.char2nr(key)
     local nr_without_ctrl = nr + 96
     if nr_without_ctrl >= 97 and nr_without_ctrl <= 122 then
@@ -16,6 +17,7 @@ function M.key2str(key)
         return key
     end
 end
+
 
 -- Function to log a single keystroke to the designated file.
 function M.log_keystroke(key)
