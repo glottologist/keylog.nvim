@@ -32,12 +32,12 @@ end
 -- Function to log a single keystroke to the designated file.
 function M.log_keystroke(key)
     if M.is_plugin_enabled then
-    local char = M.key2str(key)  -- Convert the key to its string representation.
-    local file = io.open(M.log_file_path, 'a')  -- Open the log file in append mode.
-    if file then
-        file:write(char)  -- Write the character to the file.
-        file:close()  -- Close the file after writing.
-    end
+      local char = M.key2str(key)  -- Convert the key to its string representation.
+      local file = io.open(M.log_file_path, 'a')  -- Open the log file in append mode.
+      if file then
+          file:write(char)  -- Write the character to the file.
+          file:close()  -- Close the file after writing.
+      end
     end
 end
 
