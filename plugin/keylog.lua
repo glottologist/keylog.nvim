@@ -2,28 +2,17 @@ if vim.fn.has("nvim-0.7.0") ~= 1 then
    vim.api.nvim_err_writeln("Keylog.nvim requires at least nvim-0.7.0.")
 end
 
--- Define a table 'commands' with functions imported from the 'keylog' module.
--- Each function corresponds to a different command related to key logging.
-local commands = {
-   enable = require("keylog").enable,  -- Load and store the 'enable' function from 'keylog'.
-   disable = require("keylog").disable, -- Load and store the 'disable' function from 'keylog'.
-   toggle = require("keylog").toggle,  -- Load and store the 'toggle' function from 'keylog'.
-   clear= require("keylog").clear,  -- Load and store the 'clear' function from 'keylog'.
-}
-
-
- -- Create a user command 'Keylog' in Neovim using vim.api.nvim_create_user_command.
-   vim.api.nvim_create_user_command("Keylog", function(args)
-      -- If the argument provided matches a command in the 'commands' table, execute it.
-    if commands[args.args] then
-        commands[args.args]()
-    else
+vim.api.nvim_create_user_command("Keylog", function(opts)
+  local cmd = opts.args
+  if cmd ~= "" then
+    require("keylog").run(cmd)
+  else
         print("Invalid command. Use: enable, disable, toggle, or clear.")
-    end
-   end, {
+  end
+end, {
       nargs = 1,  -- This command requires exactly one argument.
       complete = function()
          -- Provide autocompletion options for the command.
          return { "enable", "disable", "toggle", "clear" }
       end,
-   })
+})

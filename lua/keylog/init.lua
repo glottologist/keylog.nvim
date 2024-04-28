@@ -29,6 +29,34 @@ function M.log_keystroke(key)
     end
 end
 
+function M.run(cmd)
+  local functions = {
+        ['enable'] = function() 
+            M.enable()
+        end,
+        ['disable'] = function()
+            M.disable()
+        end,
+        ['clear'] = function()
+            M.clear()
+        end,
+        ['toggle'] = function()
+            M.toggle()
+        end,
+        default = function()
+            M.toggle()
+        end,
+    }
+
+   local action = functions[cmd]
+        if action then
+            action()
+        else
+            print("Invalid command. Use: enable, disable, toggle, or clear.")
+        end
+
+end
+
 -- Function to clear the log file.
 function M.clear()
     local file = io.open(M.log_file_path, 'w')  -- Open the log file in write mode to clear it.
