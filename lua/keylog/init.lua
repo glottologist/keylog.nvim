@@ -1,13 +1,14 @@
+-- Declare a module 'M' with an initial state indicating whether the plugin is enabled.
 local M = {}
 M.is_plugin_enabled = false
 
--- Specify the path to the log file
+-- Set the log file path to a file named 'keystroke.log' in the Neovim data directory.
 M.log_file_path = vim.fn.stdpath('data') .. '/keystroke.log'
-M.log_file_path_raw = vim.fn.stdpath('data') .. '/keystroke_raw.log'
 
-
+-- Function to convert special key presses to a string format for logging.
 function M.key2str(key)
-  if key == "<Esc>" then
+    -- Map certain keys to their string representations.
+    if key == "<Esc>" then
         return "<Esc>"
     elseif key == "<CR>" then
         return "<CR>"
@@ -18,6 +19,7 @@ function M.key2str(key)
     elseif key == " " then
         return "<Space>"
     end
+    -- Handle control characters.
     local nr = vim.fn.char2nr(key)
     local nr_without_ctrl = nr + 96
     if nr_without_ctrl >= 97 and nr_without_ctrl <= 122 then
@@ -27,51 +29,60 @@ function M.key2str(key)
     end
 end
 
--- Function to log a single keystroke
+-- Function to log a single keystroke to the designated file.
 function M.log_keystroke(key)
-print("Key pressed")
-    local file = io.open(M.log_file_path_raw, 'a')
+    local char = M.key2str(key)  -- Convert the key to its string representation.
+    local file = io.open(M.log_file_path, 'a')  -- Open the log file in append mode.
     if file then
-        file:write(key)
-        file:close()
+        file:write(char)  -- Write the character to the file.
+        file:close()  -- Close the file after writing.
     end
-    local char = M.key2str(key)
-    local file = io.open(M.log_file_path, 'a')
+end
+
+-- Function to clear the log file.
+function M.clear()
+    local file = io.open(M.log_file_path, 'w')  -- Open the log file in write mode to clear it.
     if file then
-        file:write(char)
+        file:write('')  -- Write an empty string to the file, effectively clearing it.
         file:close()
     end
 end
 
--- Setup function to map the keylogger to all printable ASCII characters
+-- Placeholder setup function for the keylogger command.
 function M.setup()
-print("Setup keylog")
-require("keylog.command").setup()
+    require("keylog.command").setup()
 end
 
+-- Enable the keylogger.
 function M.enable()
-     if M.is_plugin_enabled then
-      return
-   end
-   M.is_plugin_enabled = true
-   print("Keylog started")
+    if M.is_plugin_enabled then
+        return  -- If already enabled, do nothing.
+    end
+    M.is_plugin_enabled = true
+    print("Keylog started")
 
+    -- Create an autocommand that logs every yank (copy) operation's content.
     vim.api.nvim_create_autocmd({"TextYankPost"}, {
         callback = function() M.log_keystroke(vim.v.event.regcontents[1]) end
     })
 end
 
+-- Disable the keylogger.
 function M.disable()
-   if not M.is_plugin_enabled then
-      return
-   end
+    if not M.is_plugin_enabled then
+        return  -- If already disabled, do nothing.
+    end
 
-   M.is_plugin_enabled = false
-   print("Keylog stopped")
-    -- Stop handling, close popups etc.
+    M.is_plugin_enabled = false
+    print("Keylog stopped")
 end
 
+-- Toggle the state of the keylogger.
 function M.toggle()
-   (M.is_plugin_enabled and M.disable or M.enable)()
+    -- If enabled, disable it; otherwise, enable it.
+    (M.is_plugin_enabled and M.disable or M.enable)()
 end
+
+-- Return the module for external use.
 return M
+
