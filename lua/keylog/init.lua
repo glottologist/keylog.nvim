@@ -1,4 +1,5 @@
 local M = {}
+M.is_plugin_enabled = false
 
 -- Specify the path to the log file
 M.log_file_path = vim.fn.stdpath('data') .. '/keystroke.log'
@@ -29,7 +30,7 @@ end
 
 -- Function to log a single keystroke
 function M.log_keystroke(key)
-
+print("Key pressed")
     local file = io.open(M.log_file_path_raw, 'a')
     if file then
         file:write(key)
@@ -45,22 +46,35 @@ end
 
 -- Setup function to map the keylogger to all printable ASCII characters
 function M.setup()
-
-    vim.api.nvim_create_autocmd({"TextYankPost"}, {
-        callback = function() M.log_keystroke(vim.v.event.regcontents[1]) end
-    })
+print("Setup keylog")
 end
 
 -- Start and stop keycasting
 function M.start()
+     if M.is_plugin_enabled then
+      return
+   end
+
+   M.is_plugin_enabled = true
+   print("Keylog started")
+
     vim.api.nvim_create_autocmd({"TextYankPost"}, {
         callback = function() M.log_keystroke(vim.v.event.regcontents[1]) end
     })
 end
 
 function M.stop()
+   if not M.is_plugin_enabled then
+      return
+   end
+
+   M.is_plugin_enabled = false
+   print("Keylog stopped")
     -- Stop handling, close popups etc.
 end
 
+function M.toggle()
+   (M.is_plugin_enabled and M.disable or M.enable)()
+end
 -- Restore options and cleanup
 return M
