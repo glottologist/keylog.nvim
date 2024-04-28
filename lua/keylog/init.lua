@@ -7,18 +7,6 @@ M.log_file_path = vim.fn.stdpath('data') .. '/keystroke.log'
 
 -- Function to convert special key presses to a string format for logging.
 function M.key2str(key)
-    -- Map certain keys to their string representations.
-    if key == "<Esc>" then
-        return "<Esc>"
-    elseif key == "<CR>" then
-        return "<CR>"
-    elseif key == "<BS>" then
-        return "<BS>"
-    elseif key == "<Tab>" then
-        return "<Tab>"
-    elseif key == " " then
-        return "<Space>"
-    end
     -- Handle control characters.
     local nr = vim.fn.char2nr(key)
     local nr_without_ctrl = nr + 96
