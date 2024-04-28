@@ -65,6 +65,7 @@
             hooks = {
               alejandra.enable = true;
               commitizen.enable = true;
+              lua-ls.enable = true;
             };
           };
         };
