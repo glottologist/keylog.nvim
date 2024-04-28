@@ -23,7 +23,7 @@ function M.setup()
       nargs = 1,  -- This command requires exactly one argument.
       complete = function()
          -- Provide autocompletion options for the command.
-         return { "enable", "disable", "toggle","clear"}
+         return { "enable", "disable", "toggle", "clear" }
       end,
    })
 end
