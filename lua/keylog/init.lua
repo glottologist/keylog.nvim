@@ -3,8 +3,6 @@ local M = {}
 -- Specify the path to the log file
 M.log_file_path = vim.fn.stdpath('data') .. '/keystroke.log'
 
-local save_cpo = vim.o.cpo
-vim.o.cpo = vim.o.cpo .. "&vim"
 
 function M.key2str(key)
     if key == "<Esc>" then
@@ -55,5 +53,4 @@ function M.stop()
 end
 
 -- Restore options and cleanup
-vim.o.cpo = save_cpo
 return M
