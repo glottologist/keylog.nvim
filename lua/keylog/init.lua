@@ -7,7 +7,7 @@ M.log_file_path_raw = vim.fn.stdpath('data') .. '/keystroke_raw.log'
 
 
 function M.key2str(key)
---[[    if key == "<Esc>" then
+  if key == "<Esc>" then
         return "<Esc>"
     elseif key == "<CR>" then
         return "<CR>"
@@ -18,7 +18,6 @@ function M.key2str(key)
     elseif key == " " then
         return "<Space>"
     end
-    ]]--
     local nr = vim.fn.char2nr(key)
     local nr_without_ctrl = nr + 96
     if nr_without_ctrl >= 97 and nr_without_ctrl <= 122 then
@@ -54,7 +53,6 @@ function M.enable()
      if M.is_plugin_enabled then
       return
    end
-
    M.is_plugin_enabled = true
    print("Keylog started")
 
